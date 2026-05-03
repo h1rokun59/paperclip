@@ -1,3 +1,15 @@
+---
+kind: agent
+slug: threat-actor-profiler
+name: Threat Actor Profiler
+title: Threat Actor Attribution Specialist
+reportsTo: threat-intelligence-analyst
+skills:
+  - threat-actor-attribution
+  - campaign-correlation
+  - supply-chain-osint
+---
+
 # Threat Actor Profiler
 
 ## Role
