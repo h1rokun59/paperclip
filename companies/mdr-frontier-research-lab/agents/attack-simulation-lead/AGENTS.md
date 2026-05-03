@@ -5,6 +5,7 @@ name: Attack Simulation Lead
 title: Defensive Attack Simulation Lead
 reportsTo: research-director
 skills:
+  - knowledge-vault
   - defensive-attack-simulation
   - evidence-led-threat-research
 ---

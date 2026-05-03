@@ -5,6 +5,7 @@ name: CTI Hunter
 title: Continuous Threat Intelligence Hunter
 reportsTo: threat-intelligence-analyst
 skills:
+  - knowledge-vault
   - continuous-cti-hunting
   - supply-chain-osint
   - cti-hunt-reporting

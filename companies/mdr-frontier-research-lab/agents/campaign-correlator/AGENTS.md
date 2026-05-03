@@ -5,6 +5,7 @@ name: Campaign Correlator
 title: Cross-Campaign Correlation Specialist
 reportsTo: threat-intelligence-analyst
 skills:
+  - knowledge-vault
   - campaign-correlation
   - supply-chain-osint
   - threat-actor-attribution

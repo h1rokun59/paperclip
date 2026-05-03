@@ -5,6 +5,7 @@ name: Research Director
 title: Chief MDR Research Director
 reportsTo: null
 skills:
+  - knowledge-vault
   - virtual-customer-mdr-triage
   - research-synthesis
   - incident-response-advisory

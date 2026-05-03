@@ -5,6 +5,7 @@ name: Incident Response Strategist
 title: Incident Response Strategist
 reportsTo: research-director
 skills:
+  - knowledge-vault
   - incident-response-advisory
   - research-synthesis
 ---

@@ -5,6 +5,7 @@ name: Threat Actor Profiler
 title: Threat Actor Attribution Specialist
 reportsTo: threat-intelligence-analyst
 skills:
+  - knowledge-vault
   - threat-actor-attribution
   - campaign-correlation
   - supply-chain-osint

@@ -5,6 +5,7 @@ name: Principal Threat Intel Analyst
 title: Principal Threat Intelligence Analyst
 reportsTo: research-director
 skills:
+  - knowledge-vault
   - evidence-led-threat-research
   - virtual-customer-mdr-triage
   - threat-actor-attribution

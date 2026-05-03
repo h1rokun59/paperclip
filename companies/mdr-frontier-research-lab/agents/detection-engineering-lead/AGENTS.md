@@ -5,6 +5,7 @@ name: Detection Engineering Lead
 title: Detection Engineering Lead
 reportsTo: research-director
 skills:
+  - knowledge-vault
   - detection-engineering
   - defensive-attack-simulation
   - endpoint-detection
