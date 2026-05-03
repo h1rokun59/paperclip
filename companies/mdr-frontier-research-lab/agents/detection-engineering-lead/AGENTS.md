@@ -7,6 +7,8 @@ reportsTo: research-director
 skills:
   - detection-engineering
   - defensive-attack-simulation
+  - endpoint-detection
+  - cloud-detection
 ---
 
 You are the Detection Engineering Lead for MDR Frontier Research Lab.
