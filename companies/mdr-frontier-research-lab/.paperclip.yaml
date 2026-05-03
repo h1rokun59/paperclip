@@ -8,49 +8,49 @@ agents:
     icon: shield-check
     capabilities: Case intake, research orchestration, advisory synthesis, MDR decision quality control
     adapter:
-      type: claude_code_local
+      type: claude_local
   threat-intelligence-analyst:
     role: threat_intelligence
     icon: search
     capabilities: Source evaluation, timeline construction, TTP mapping, evidence grading
     adapter:
-      type: claude_code_local
+      type: claude_local
   attack-simulation-lead:
     role: attack_simulation
     icon: route
     capabilities: Defensive scenario modeling, attack feasibility analysis, assumption testing
     adapter:
-      type: claude_code_local
+      type: claude_local
   detection-engineering-lead:
     role: detection_engineering
     icon: radar
     capabilities: Telemetry mapping, detection hypothesis design, investigation pivot planning
     adapter:
-      type: claude_code_local
+      type: claude_local
   incident-response-strategist:
     role: incident_response
     icon: clipboard-check
     capabilities: Containment planning, eradication strategy, recovery guidance, customer advisory writing
     adapter:
-      type: claude_code_local
+      type: claude_local
   cti-hunter:
     role: cti_hunter
     icon: crosshair
     capabilities: Continuous threat actor monitoring, IOC pivoting, campaign tracking, supply chain registry surveillance, weekly hunt reporting
     adapter:
-      type: claude_code_local
+      type: claude_local
   threat-actor-profiler:
     role: threat_actor_profiler
     icon: user-search
     capabilities: Threat actor attribution, TTP fingerprinting, infrastructure analysis, campaign timeline reconstruction, APT group linkage
     adapter:
-      type: claude_code_local
+      type: claude_local
   campaign-correlator:
     role: campaign_correlator
     icon: git-merge
     capabilities: Cross-campaign IOC pivoting, code/infrastructure similarity analysis, related package discovery, OSINT aggregation
     adapter:
-      type: claude_code_local
+      type: claude_local
 sidebar:
   agents:
     - cti-hunter
