@@ -27,6 +27,14 @@ The command:
 6. Imports `MDR Frontier Research Lab` if it is missing.
 7. Sets the Paperclip CLI context profile to the MDR company.
 
+If you want the running Paperclip company to exactly match the latest Git package, recreate it explicitly:
+
+```sh
+./scripts/mdr-up.sh --recreate-company
+```
+
+This deletes the existing `MDR Frontier Research Lab` company from the local Paperclip instance and imports it again from `companies/mdr-frontier-research-lab`. Local Paperclip runtime state for that company, such as issue history and comments, is removed with the company.
+
 On a completely fresh machine, the first run will print a bootstrap CEO invite and wait for the first admin account to be created. It may then print a CLI approval URL; approve it in the browser and the same command will continue.
 
 After setup, the dashboard is:
@@ -53,6 +61,7 @@ git push -u private master
 ```sh
 ./scripts/mdr-up.sh --no-pull
 ./scripts/mdr-up.sh --no-import
+./scripts/mdr-up.sh --recreate-company
 docker logs -f paperclip-mdr
 docker compose --project-name paperclip-mdr -f docker/docker-compose.mdr.yml down
 ```

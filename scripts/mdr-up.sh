@@ -11,21 +11,27 @@ CONTAINER_NAME="paperclip-mdr"
 REMOTE_NAME="${PAPERCLIP_MDR_REMOTE:-}"
 SKIP_PULL="${PAPERCLIP_MDR_SKIP_PULL:-0}"
 SKIP_IMPORT="${PAPERCLIP_MDR_SKIP_IMPORT:-0}"
+RECREATE_COMPANY="${PAPERCLIP_MDR_RECREATE_COMPANY:-0}"
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/mdr-up.sh [--no-pull] [--no-import]
+Usage: scripts/mdr-up.sh [--no-pull] [--no-import] [--recreate-company]
 
 Starts the local Paperclip MDR research lab from the latest Git state.
 
 Options:
   --no-pull     Do not fetch/pull the configured Git remote.
   --no-import   Start Paperclip but skip the MDR company import check.
+  --recreate-company
+                Delete and re-import the MDR company when it already exists.
+                This refreshes agents, projects, tasks, skills, and routines from Git.
 
 Environment:
   PAPERCLIP_MDR_REMOTE      Git remote to pull from. Defaults to private, then origin.
   PAPERCLIP_MDR_SKIP_PULL   Set to 1 to skip Git pull.
   PAPERCLIP_MDR_SKIP_IMPORT Set to 1 to skip company import.
+  PAPERCLIP_MDR_RECREATE_COMPANY
+                            Set to 1 to delete and re-import the MDR company.
 USAGE
 }
 
@@ -36,6 +42,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     --no-import)
       SKIP_IMPORT=1
+      ;;
+    --recreate-company)
+      RECREATE_COMPANY=1
       ;;
     -h|--help)
       usage
@@ -321,8 +330,21 @@ ensure_cli_auth() {
 }
 
 company_exists() {
+  [ -n "$(company_id_by_name)" ]
+}
+
+company_id_by_name() {
   docker_cli company list --api-base "http://localhost:3100" --json \
-    | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{const rows=JSON.parse(s);process.exit(rows.some(c=>c.name===process.argv[1])?0:1)})" "${COMPANY_NAME}"
+    | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{const rows=JSON.parse(s);const row=rows.find(c=>c.name===process.argv[1]); if(row) process.stdout.write(row.id)})" "${COMPANY_NAME}"
+}
+
+import_company() {
+  log "Importing ${COMPANY_NAME}."
+  docker_cli company import "/paperclip/imports/${COMPANY_SLUG}" \
+    --target new \
+    --include company,agents,projects,tasks,skills \
+    --yes \
+    --api-base "http://localhost:3100"
 }
 
 ensure_company_imported() {
@@ -334,20 +356,25 @@ ensure_company_imported() {
   ensure_bootstrap_ready
   ensure_cli_auth
 
-  if company_exists; then
-    log "${COMPANY_NAME} already exists."
-  else
-    log "Importing ${COMPANY_NAME}."
-    docker_cli company import "/paperclip/imports/${COMPANY_SLUG}" \
-      --target new \
-      --include company,agents,projects,tasks,skills \
+  local company_id
+  company_id="$(company_id_by_name)"
+  if [ -n "${company_id}" ] && [ "${RECREATE_COMPANY}" = "1" ]; then
+    log "Deleting existing ${COMPANY_NAME} (${company_id}) before re-import."
+    docker_cli company delete "${company_id}" \
+      --by id \
       --yes \
+      --confirm "${company_id}" \
       --api-base "http://localhost:3100"
+    company_id=""
   fi
 
-  local company_id
-  company_id="$(docker_cli company list --api-base "http://localhost:3100" --json \
-    | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{const rows=JSON.parse(s);const row=rows.find(c=>c.name===process.argv[1]); if(row) process.stdout.write(row.id)})" "${COMPANY_NAME}")"
+  if [ -n "${company_id}" ]; then
+    log "${COMPANY_NAME} already exists. Use --recreate-company to refresh it from Git."
+  else
+    import_company
+    company_id="$(company_id_by_name)"
+  fi
+
   if [ -n "${company_id}" ]; then
     docker_cli context set --profile mdr --api-base "http://localhost:3100" --company-id "${company_id}" --use --json >/dev/null
   fi

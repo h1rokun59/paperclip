@@ -1,4 +1,12 @@
-# Task: APT Attribution Assessment
+---
+kind: task
+slug: apt-attribution-assessment
+name: APT Attribution Assessment
+assignee: threat-actor-profiler
+project: threat-actor-campaign-research
+---
+
+# APT Attribution Assessment
 
 ## Objective
 

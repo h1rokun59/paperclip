@@ -63,10 +63,10 @@ sidebar:
     - incident-response-strategist
 routines:
   weekly-cti-hunt:
-    agentSlug: cti-hunter
-    description: Weekly sweep for new threat actor activity, related campaigns, and supply chain IOCs derived from the Axios case and ongoing watch list
     triggers:
-      - type: schedule
-        cron: "0 9 * * 1"
-    concurrencyPolicy: skip
-    catchUpPolicy: skip
+      - kind: schedule
+        label: Weekly CTI hunt
+        cronExpression: "0 9 * * 1"
+        timezone: Asia/Tokyo
+    concurrencyPolicy: skip_if_active
+    catchUpPolicy: skip_missed

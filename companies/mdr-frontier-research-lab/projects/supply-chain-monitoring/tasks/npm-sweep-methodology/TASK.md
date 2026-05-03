@@ -1,4 +1,12 @@
-# Task: Document npm Sweep Methodology
+---
+kind: task
+slug: npm-sweep-methodology
+name: Document npm Sweep Methodology
+assignee: cti-hunter
+project: supply-chain-monitoring
+---
+
+# Document npm Sweep Methodology
 
 ## Objective
 

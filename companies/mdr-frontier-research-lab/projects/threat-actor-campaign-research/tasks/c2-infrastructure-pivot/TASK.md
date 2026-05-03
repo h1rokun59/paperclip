@@ -1,4 +1,12 @@
-# Task: C2 Infrastructure Pivot
+---
+kind: task
+slug: c2-infrastructure-pivot
+name: C2 Infrastructure Pivot
+assignee: campaign-correlator
+project: threat-actor-campaign-research
+---
+
+# C2 Infrastructure Pivot
 
 ## Objective
 

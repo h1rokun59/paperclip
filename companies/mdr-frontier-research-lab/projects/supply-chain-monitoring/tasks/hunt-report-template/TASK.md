@@ -1,4 +1,12 @@
-# Task: Produce Weekly Hunt Report Template
+---
+kind: task
+slug: hunt-report-template
+name: Produce Weekly Hunt Report Template
+assignee: cti-hunter
+project: supply-chain-monitoring
+---
+
+# Produce Weekly Hunt Report Template
 
 ## Objective
 

@@ -1,4 +1,16 @@
-# Project: Supply Chain Threat Monitoring Program
+---
+kind: project
+slug: supply-chain-monitoring
+name: Supply Chain Threat Monitoring Program
+description: Ongoing monitoring program for npm and cross-ecosystem supply-chain threats.
+owner: cti-hunter
+tags:
+  - supply-chain
+  - cti
+  - monitoring
+---
+
+# Supply Chain Threat Monitoring Program
 
 ## Goal
 

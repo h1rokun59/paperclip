@@ -1,4 +1,16 @@
-# Project: Threat Actor Campaign Research
+---
+kind: project
+slug: threat-actor-campaign-research
+name: Threat Actor Campaign Research
+description: Profile and track the actor or actor cluster behind the Axios npm supply-chain attack.
+owner: threat-actor-profiler
+tags:
+  - threat-actor
+  - attribution
+  - campaign-research
+---
+
+# Threat Actor Campaign Research
 
 ## Goal
 

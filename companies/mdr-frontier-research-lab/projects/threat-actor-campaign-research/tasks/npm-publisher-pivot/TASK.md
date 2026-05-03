@@ -1,4 +1,12 @@
-# Task: npm Publisher Account Pivot
+---
+kind: task
+slug: npm-publisher-pivot
+name: npm Publisher Account Pivot
+assignee: threat-actor-profiler
+project: threat-actor-campaign-research
+---
+
+# npm Publisher Account Pivot
 
 ## Objective
 

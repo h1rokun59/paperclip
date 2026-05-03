@@ -1,4 +1,12 @@
-# Task: Build IOC Watch List v1
+---
+kind: task
+slug: ioc-watch-list-v1
+name: Build IOC Watch List v1
+assignee: cti-hunter
+project: supply-chain-monitoring
+---
+
+# Build IOC Watch List v1
 
 ## Objective
 

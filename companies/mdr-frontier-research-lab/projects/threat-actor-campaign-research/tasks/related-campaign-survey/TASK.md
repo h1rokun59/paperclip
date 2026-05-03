@@ -1,4 +1,12 @@
-# Task: Related Campaign Survey
+---
+kind: task
+slug: related-campaign-survey
+name: Related Campaign Survey
+assignee: campaign-correlator
+project: threat-actor-campaign-research
+---
+
+# Related Campaign Survey
 
 ## Objective
 

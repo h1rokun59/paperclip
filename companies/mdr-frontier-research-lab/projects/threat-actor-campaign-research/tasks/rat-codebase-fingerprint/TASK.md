@@ -1,4 +1,12 @@
-# Task: RAT Codebase Fingerprinting
+---
+kind: task
+slug: rat-codebase-fingerprint
+name: RAT Codebase Fingerprinting
+assignee: threat-actor-profiler
+project: threat-actor-campaign-research
+---
+
+# RAT Codebase Fingerprinting
 
 ## Objective
 

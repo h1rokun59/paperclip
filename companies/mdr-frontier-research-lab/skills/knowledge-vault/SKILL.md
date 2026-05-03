@@ -2,73 +2,89 @@
 
 ## Purpose
 
-Read from and write to the personal knowledge vault at `/Users/hirok/personal-brain/My-Knowledge-Valut/`. All research, analysis, and investigation outputs produced by MDR agents must be persisted here. All agents must consult the vault before starting research to avoid duplicating existing knowledge.
+Read from and write to the personal knowledge vault at `/Users/hirok/personal-brain/My-Knowledge-Valut/`. All agents must consult the vault before starting research. Write access to `Raw/` and `Wiki/` is restricted to Research Director only. Other agents write drafts to `Reports/` and request Research Director review.
 
 ## Vault Structure
 
 ```
 /Users/hirok/personal-brain/My-Knowledge-Valut/
-├── Raw/        ← 未処理のソース素材（記事・メモ・調査ノート）
-├── Wiki/       ← 構造化ナレッジページ（1ページ1トピック）
-│   ├── index.md  ← 全ページの目次（必ず更新）
-│   └── log.md    ← 操作ログ（必ず記録）
-└── Reports/    ← 調査・分析の出力ファイル
+├── Raw/        ← 承認済みソース素材（Research Director のみ書き込み可）
+├── Wiki/       ← 構造化ナレッジページ（Research Director のみ書き込み可）
+│   ├── index.md  ← 全ページの目次
+│   └── log.md    ← 操作ログ
+└── Reports/    ← 全エージェントが下書きを置く場所。RD がここから Raw/Wiki/ に昇格させる
 ```
 
-## Read Protocol — Research Start (Required)
+## Write Permissions by Role
 
-Before starting any research task, run this sequence:
+| 場所 | Research Director | その他のエージェント |
+|------|:-----------------:|:--------------------:|
+| `Raw/` | ✅ 書き込み可 | ❌ 読み取りのみ |
+| `Wiki/` | ✅ 書き込み可 | ❌ 読み取りのみ |
+| `Reports/` | ✅ | ✅ |
 
-1. **Read `Wiki/index.md`** — identify pages relevant to the case/topic
-2. **Read relevant Wiki pages** — follow `[[WikiLinks]]` to connected pages
-3. **Check `Raw/`** — look for source documents related to the topic
-4. **Note what is already known** — do not re-derive facts that are already in the Wiki
+**Research Director 以外のエージェントは `Raw/` と `Wiki/` に直接書いてはいけない。** 成果物は必ず `Reports/` に置き、Research Director のレビューを待つ。
 
-### Currently Known (as of 2026-05): Key Wiki Pages for MDR Research
+## Read Protocol — Research Start (全エージェント必須)
 
-| Topic | Wiki Page |
-|-------|-----------|
-| Axios supply chain attack | `Wiki/axios乗っ取り事件_2026.md` |
-| Axios IOCs | `Wiki/IOC_axios乗っ取り事件_2026.md` |
-| Threat actor (North Korea-nexus) | `Wiki/UNC1069.md` |
-| RAT family | `Wiki/WAVESHAPER.md` |
-| JS dropper | `Wiki/SILKBELL.md` |
-| Related crypto campaign | `Wiki/UNC1069_暗号通貨キャンペーン_2026.md` |
-| NK APT overview | `Wiki/北朝鮮APTグループ概観.md` |
-| Supply chain attack patterns | `Wiki/サプライチェーン攻撃.md` |
-| LiteLLM attack (related) | `Wiki/LiteLLM侵害事件_2026.md` |
+研究タスクを始める前に必ずこの順で読む：
 
-## Write Protocol — Output Persistence (Required)
+1. **`Wiki/index.md` を読む** — 関連ページを特定する
+2. **関連 Wiki ページを読む** — `[[WikiLinks]]` を辿って芋づる式に収集する
+3. **`Raw/` を確認する** — 関連するソース素材があれば読む
+4. **既知の情報を把握してから着手する** — Wiki にある事実を再導出しない
 
-### Raw research notes and source materials → `Raw/`
-Save when you:
-- Collect a new source document or article
-- Write raw investigation notes during a hunt run
-- Dump IOC data before structuring it
+### 現時点（2026-05）の主要参照ページ
 
-Naming: `Raw/YYYY-MM-DD_topic-slug.md`
+| トピック | Wiki ページ |
+|---------|------------|
+| Axios サプライチェーン攻撃 | `Wiki/axios乗っ取り事件_2026.md` |
+| Axios IOC 一覧 | `Wiki/IOC_axios乗っ取り事件_2026.md` |
+| 脅威アクター（北朝鮮系） | `Wiki/UNC1069.md` |
+| RAT ファミリー | `Wiki/WAVESHAPER.md` |
+| JS ドロッパー | `Wiki/SILKBELL.md` |
+| 関連暗号通貨キャンペーン | `Wiki/UNC1069_暗号通貨キャンペーン_2026.md` |
+| 北朝鮮 APT 概観 | `Wiki/北朝鮮APTグループ概観.md` |
+| サプライチェーン攻撃パターン | `Wiki/サプライチェーン攻撃.md` |
+| LiteLLM 侵害（関連） | `Wiki/LiteLLM侵害事件_2026.md` |
 
-### Formal analysis outputs → `Reports/`
-Save when you:
-- Complete a hunt report
-- Produce a threat actor attribution assessment
-- Write a campaign correlation report
-- Produce a customer advisory
+## Write Protocol — Research Agents (Research Director 以外)
 
-Naming: `Reports/YYYY-MM-DD_report-title.md`
+成果物は `Reports/` に保存し、Paperclip の Issueコメントで Research Director にレビューを依頼する。
 
-### Structured knowledge updates → `Wiki/`
-Create or update a Wiki page when you:
-- Discover a new threat actor, malware family, or campaign that doesn't have a page yet
-- Find new IOCs that should be added to an existing IOC page
-- Establish a new attribution link between campaigns
-- Confirm or upgrade a confidence assessment
+```
+Reports/YYYY-MM-DD_[case-id]_[report-type].md
+例: Reports/2026-05-04_MDR-AXIOS-001_cti-hunt-report.md
+```
 
-After any Wiki write:
-- Update `Wiki/index.md` to include the new/updated page
-- Append to `Wiki/log.md` with date and description of what changed
+Reports ファイルの先頭には以下を含める：
+- 参照した Wiki ページのリスト
+- 新たに判明した事実（Raw/Wiki に昇格させる候補）
+- Research Director への確認事項
 
-## File Format — Wiki Pages
+## Write Protocol — Research Director のみ
+
+### Raw/ への保存
+
+Research Director が内容を確認し、永続化する価値があると判断した場合のみ `Raw/` に移動または新規作成する。
+
+```
+Raw/YYYY-MM-DD_topic-slug.md
+```
+
+### Wiki/ の更新（インジェスト手順）
+
+`Raw/` に新しいファイルが追加されたら、以下の手順で `Wiki/` に反映する：
+
+1. ソースを注意深く読み、重要な概念・人物・組織・技術・イベントを抽出する
+2. 既存の `Wiki/` を確認し、既存ページに統合すべきか新規ページに分けるべきか判断する
+3. 必要なページを `Wiki/` に作成または更新する
+4. 各ページに YAML フロントマターを付ける（下記フォーマット参照）
+5. ページ間を `[[ページ名]]` で接続する
+6. `Wiki/index.md` を更新する
+7. `Wiki/log.md` に作業内容を記録する
+
+### Wiki ページのフォーマット
 
 ```markdown
 ---
@@ -76,6 +92,7 @@ title: ページタイトル
 tags:
   - tag1
   - tag2
+  - tag3
 source:
   - Raw/ソースファイル名.md
 confidence: high | medium | low
@@ -87,35 +104,10 @@ last_verified: YYYY-MM-DD
 本文。[[関連ページ]] へのリンクを積極的に使う。
 ```
 
-## File Format — Reports
-
-```markdown
----
-title: レポートタイトル
-date: YYYY-MM-DD
-author: [agent name]
-case: [case ID or name]
-tags:
-  - tag1
-source_wiki:
-  - Wiki/関連ページ.md
----
-
-# レポートタイトル
-
-本文。
-
-## 参照
-
-- [[Wiki/IOC_axios乗っ取り事件_2026]]
-- [[Wiki/UNC1069]]
-```
-
 ## Key Rules
 
-- **Read before write.** Never produce a report without first checking the Wiki.
-- **Update, don't duplicate.** If a Wiki page already exists for your topic, update it rather than creating a new one.
-- **Link aggressively.** Use `[[PageName]]` to connect related Wiki pages.
-- **Confidence grades.** Always set `confidence: high | medium | low` in frontmatter. Unverified claims must be `low`.
-- **Source traceability.** Always list source files in the frontmatter `source` field.
-- **Log every write.** Every Wiki create/update must be recorded in `Wiki/log.md`.
+- **Read before write.** Wiki を確認してから着手する。
+- **Update, don't duplicate.** 既存ページがあれば新規作成より更新を優先する。
+- **Reports は下書き。** Raw/Wiki への昇格は Research Director の判断で行う。
+- **Confidence grades.** `confidence: high | medium | low` を必ず設定する。未検証は `low`。
+- **Log every write.** Research Director が Wiki を更新するたびに `Wiki/log.md` に記録する。
