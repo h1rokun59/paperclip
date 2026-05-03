@@ -1,0 +1,42 @@
+schema: paperclip/v1
+company:
+  brandColor: "#0f766e"
+  requireBoardApprovalForNewAgents: false
+agents:
+  research-director:
+    role: research_director
+    icon: shield-check
+    capabilities: Case intake, research orchestration, advisory synthesis, MDR decision quality control
+    adapter:
+      type: codex_local
+  threat-intelligence-analyst:
+    role: threat_intelligence
+    icon: search
+    capabilities: Source evaluation, timeline construction, TTP mapping, evidence grading
+    adapter:
+      type: codex_local
+  attack-simulation-lead:
+    role: attack_simulation
+    icon: route
+    capabilities: Defensive scenario modeling, attack feasibility analysis, assumption testing
+    adapter:
+      type: codex_local
+  detection-engineering-lead:
+    role: detection_engineering
+    icon: radar
+    capabilities: Telemetry mapping, detection hypothesis design, investigation pivot planning
+    adapter:
+      type: codex_local
+  incident-response-strategist:
+    role: incident_response
+    icon: clipboard-check
+    capabilities: Containment planning, eradication strategy, recovery guidance, customer advisory writing
+    adapter:
+      type: codex_local
+sidebar:
+  agents:
+    - research-director
+    - threat-intelligence-analyst
+    - attack-simulation-lead
+    - detection-engineering-lead
+    - incident-response-strategist

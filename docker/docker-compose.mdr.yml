@@ -1,0 +1,23 @@
+services:
+  paperclip:
+    image: ghcr.io/paperclipai/paperclip:latest
+    container_name: paperclip-mdr
+    ports:
+      - "${PAPERCLIP_PORT:-3100}:3100"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "3100"
+      SERVE_UI: "true"
+      PAPERCLIP_HOME: "/paperclip"
+      PAPERCLIP_INSTANCE_ID: "default"
+      PAPERCLIP_CONFIG: "/paperclip/instances/default/config.json"
+      PAPERCLIP_DEPLOYMENT_MODE: "authenticated"
+      PAPERCLIP_DEPLOYMENT_EXPOSURE: "private"
+      PAPERCLIP_PUBLIC_URL: "${PAPERCLIP_PUBLIC_URL:-http://localhost:3100}"
+      BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      OPENCODE_ALLOW_ALL_MODELS: "true"
+    volumes:
+      - "${PAPERCLIP_DATA_DIR:-./data/docker-paperclip}:/paperclip"
+    restart: unless-stopped

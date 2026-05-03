@@ -38,6 +38,7 @@ COPY patches/ patches/
 RUN pnpm install --frozen-lockfile
 
 FROM base AS build
+ENV NODE_OPTIONS=--max-old-space-size=4096
 WORKDIR /app
 COPY --from=deps /app /app
 COPY . .
